@@ -160,18 +160,26 @@ String pidstr("PID");
 String STOP("0");
 
 void parseData(String data){
-  int firstSpace = data.indexOf(' ');
-  int secondSpace = data.indexOf(' ', firstSpace + 1);
-  int thirdSpace = data.indexOf(' ', secondSpace + 1);
-
-  if (data.length() > 0){
-    if (data.startsWith(pidstr)){
-      KP = data.substring(firstSpace, secondSpace).toFloat();
-      KI = data.substring(secondSpace+1, thirdSpace).toFloat();
-      KD = data.substring(thirdSpace+1).toFloat();
-    }
-    else if (data == STOP){
+  if (data.startsWith("PID ")){
+  String values = data.substring(4);
+  values.trim();
+  
+  int index1 = values.indexOf(' ');
+  int index2 = values.indexOf(' ', index1 + 1);
+  
+  if (index1 != -1 && index2 != -1) {
+      KP = values.substring(0, index1).toFloat();
+      KI = values.substring(index1 + 1, index2).toFloat();
+      KD = values.substring(index2 + 1).toFloat();
+  }
+  else if (data == STOP){
       IS_MOVING = false;
-    }
+  }
+  // if (data.length() > 0){
+  //   if (data.startsWith(pidstr)){
+  //     KP = data.substring(firstSpace, secondSpace).toFloat();
+  //     KI = data.substring(secondSpace+1, thirdSpace).toFloat();
+  //     KD = data.substring(thirdSpace+1).toFloat();
+  //   }
   }
 }
